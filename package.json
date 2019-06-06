@@ -1,0 +1,26 @@
+{
+  "name": "wechat",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "db": "cd /usr/local/Cellar/mongodb/3.6.4/bin && mongod --dbpath ../data/"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "eventproxy": "^1.0.0",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "log4js": "^4.2.0",
+    "moment": "^2.24.0",
+    "mongoose": "^5.5.8",
+    "morgan": "~1.9.0",
+    "node-uuid": "^1.4.8",
+    "pug": "2.0.0-beta11",
+    "superagent": "^5.0.5",
+    "utility": "^1.16.1"
+  }
+}
