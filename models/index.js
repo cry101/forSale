@@ -14,10 +14,12 @@ mongoose.connect(config.db, {
   }
 });
 
+mongoose.plugin(require("./base_model"))
+
 // models
 require('./user');
 require('./company')
-require('./tag');
+require('./tags');
 require('./customer');
 require('./record')
 require('./inventory')
@@ -25,7 +27,7 @@ require('./product');
 
 
 exports.User = mongoose.model('User');
-exports.Tag = mongoose.model('Tag');
+exports.Tags = mongoose.model('Tags');
 exports.Company = mongoose.model('Company');
 exports.Customer = mongoose.model('Customer');
 exports.Record = mongoose.model('Record');

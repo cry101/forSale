@@ -4,12 +4,18 @@
  */
 var tools = require('../common/tools');
 
-module.exports = function (schema) {
-  schema.methods.create_at_ago = function () {
-    return tools.formatDate(this.create_at, true);
-  };
+module.exports = function (schema, options) {
+	schema.pre('save', function (next) {
+		this.updated_time = new Date();
+		next();
+	});
 
-  schema.methods.update_at_ago = function () {
-    return tools.formatDate(this.update_at, true);
-  };
+	schema.set('timestamps', { createdAt: 'created_time', updatedAt: 'updated_time' });
+	schema.set('toJSON', {
+		transform: function (doc, ret, options) {
+		  ret.created_time = tools.formatDate(ret.created_time)
+		  ret.updated_time = tools.formatDate(ret.updated_time)
+		  return ret
+		}
+	})
 };

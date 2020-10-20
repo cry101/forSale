@@ -17,8 +17,12 @@
   "basePath": "/api/v1",
   "tags": [
     {
+      "name": "common",
+      "description": "通用接口"
+    },
+    {
       "name": "company",
-      "description": "公司信息接口",
+      "description": "公司信息接口"
     },
     {
       "name": "tags",
@@ -26,13 +30,104 @@
     },
     {
       "name": "user",
-      "description": "用户信息接口",
+      "description": "用户信息接口"
+    },
+    {
+      "name": "product",
+      "description": "产品信息接口"
+    },
+    {
+      "name": "customer",
+      "description": "顾客信息接口"
+    },
+    {
+      "name": "record",
+      "description": "进销信息接口"
+    },
+    {
+      "name": "inventory",
+      "description": "库存信息接口"
     }
   ],
   "schemes": [
     "http"
   ],
   "paths": {
+    "/upload": {
+      "post": {
+        "tags": [
+          "common"
+        ],
+        "summary": "上传文件",
+        "description": "",
+        "operationId": "addPet",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "file",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/login": {
+      "get": {
+        "tags": [
+          "common"
+        ],
+        "summary": "微信小程序登录接口",
+        "description": "",
+        "produces": [
+          "application/x-www-form-urlencoded",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
     "/company": {
       "post": {
         "tags": [
@@ -229,6 +324,33 @@
             "required": false,
             "type": "string"
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user/info": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "获取用户信息",
+        "description": "",
+        "produces": [
+          "application/x-www-form-urlencoded",
+          "application/json"
         ],
         "responses": {
           "200": {
@@ -502,63 +624,10 @@
         }
       }
     },
-    "/productFetch": {
-      "post": {
-        "tags": [
-          "products"
-        ],
-        "summary": "爬取产品数据",
-        "description": "",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "url",
-            "in": "query",
-            "description": "爬取地址",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "company_id",
-            "in": "query",
-            "description": "公司id",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "tag",
-            "in": "query",
-            "description": "分类id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
     "/product": {
       "post": {
         "tags": [
-          "products"
+          "product"
         ],
         "summary": "新增产品",
         "description": "",
@@ -599,7 +668,7 @@
     "/products": {
       "get": {
         "tags": [
-          "products"
+          "product"
         ],
         "summary": "获取产品列表",
         "description": "",
@@ -612,6 +681,13 @@
             "name": "name",
             "in": "query",
             "description": "产品名称",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "bar_code",
+            "in": "query",
+            "description": "条码",
             "required": false,
             "type": "string"
           },
@@ -683,7 +759,7 @@
       },
       "put": {
         "tags": [
-          "products"
+          "product"
         ],
         "summary": "更新产品信息",
         "description": "This can only be done by the logged in user.",
@@ -721,7 +797,7 @@
       },
       "delete": {
         "tags": [
-          "products"
+          "product"
         ],
         "summary": "删除产品信息",
         "description": "This can only be done by the logged in user.",
@@ -747,6 +823,59 @@
             "description": "User not found"
           }
         }
+      }
+    },
+    "/product/fetch": {
+      "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "爬取产品数据",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "爬取地址",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "company_id",
+            "in": "query",
+            "description": "公司id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "分类id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
       }
     },
     "/customer": {
@@ -863,7 +992,7 @@
       },
       "put": {
         "tags": [
-          "products"
+          "customer"
         ],
         "summary": "更新顾客信息",
         "description": "This can only be done by the logged in user.",
@@ -973,7 +1102,7 @@
     "/records": {
       "get": {
         "tags": [
-          "customer"
+          "record"
         ],
         "summary": "获取进销列表",
         "description": "",
@@ -1307,9 +1436,9 @@
         "read:pets": "read your pets"
       }
     },
-    "api_key": {
+    "token": {
       "type": "apiKey",
-      "name": "api_key",
+      "name": "token",
       "in": "header"
     }
   },
@@ -1352,15 +1481,6 @@
         "accessToken": {
           "type": "string",
           "example": "1"
-        },
-        "status": {
-          "type": "string",
-          "description": "pet status in the store",
-          "enum": [
-            "available",
-            "pending",
-            "sold"
-          ]
         }
       },
       "xml": {
@@ -1429,6 +1549,10 @@
         "price": {
           "type": "string",
           "example": "350"
+        },
+        "bar_code": {
+          "type": "string",
+          "example": "12-0496-CH"
         }
       },
       "xml": {

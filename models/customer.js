@@ -1,5 +1,4 @@
 var mongoose  = require('mongoose');
-var BaseModel = require("./base_model");
 var Schema    = mongoose.Schema;
 // var utility   = require('utility');
 // var _ = require('lodash');
@@ -18,18 +17,6 @@ var CustomerSchema = new Schema({
 	prepay: {type: Number}, //预付款
 
 	token: {type: String},
-
-	create_at: { type: Date, default: Date.now },
-	update_at: { type: Date, default: Date.now },
-});
-
-CustomerSchema.plugin(BaseModel);
-
-
-CustomerSchema.pre('save', function(next){
-	var now = new Date();
-	this.update_at = now;
-	next();
 });
 
 mongoose.model('Customer', CustomerSchema);

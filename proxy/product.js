@@ -64,6 +64,7 @@ exports.newAndSave = function ( obj, callback) {
 	product.tag = obj.tag || '';
 	product.price = obj.price || '';
 	product.pic = obj.pic || '';
+	product.bar_code = obj.bar_code || '';
 
 	product.save(callback);
 };

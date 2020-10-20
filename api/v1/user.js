@@ -76,8 +76,22 @@ const oneById = (req, res, next) => {
 	}));
 }
 
+const info = (req, res, next) => {
+	let ep = new eventproxy()
+	if(!req.headers.token) {
+		res.send({success: false, msg: '没有用户token信息'})
+	}
+	UserProxy.getUserByToken(req.headers.token, ep.done(function(data){
+		if (!data) {
+			return res.status(403).send('forbidden!');
+		}
+		res.send({ success: true, data: data});
+	}))
+}
+
 exports.create = create
 exports.del = del
 exports.update = update
 exports.list = list
 exports.oneById = oneById
+exports.info = info

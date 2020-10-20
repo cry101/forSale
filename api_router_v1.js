@@ -2,6 +2,7 @@ const express = require('express');
 
 const auth = require('./middlewares/auth')
 
+const commonApi = require('./api/v1/common');
 const userApi = require('./api/v1/user');
 const companyApi = require('./api/v1/company');
 const tagApi = require('./api/v1/tag');
@@ -16,11 +17,21 @@ const config = require('./config');
 
 const router = express.Router();
 
+// 通用接口
+router.post('/upload', commonApi.upload.single('file'),(req,res)=>{
+    let path = '/uploads/' + req.file.filename
+    res.send({success: true, data: {
+        ...req.file,
+        path
+    }})
+})
+router.get('/login', commonApi.login);
 
 // 用户
 router.post('/user', userApi.create);
 router.get('/user/:id', userApi.oneById);
 router.get('/users', userApi.list);
+router.get('/user/info', userApi.info);
 router.put('/user/:id', userApi.update);
 router.delete('/user/:id', userApi.del);
 
@@ -37,12 +48,13 @@ router.put('/tag/:id', tagApi.update);
 router.delete('/tag/:id', tagApi.del);
 
 // 产品
-router.post('/productFetch', productApi.fetch);
 router.post('/product', productApi.create);
 router.get('/product/:id', productApi.oneById);
 router.get('/products', productApi.list);
 router.put('/product/:id', productApi.update);
 router.delete('/product/:id', productApi.del);
+router.post('/product/fetch', productApi.fetch);
+
 
 // 客户
 router.post('/customer', auth.userRequired, customerApi.create);
