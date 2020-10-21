@@ -61,6 +61,8 @@ const list = (req, res, next) => {
 			...query,
 			name:  {$regex : reg}
 		}
+	} else {
+		delete query["name"]
 	}
 
 	query.token = req.headers.token;

@@ -57,6 +57,8 @@ const list = (req, res, next) => {
 			...query,
 			name:  {$regex : reg}
 		}
+	} else {
+		delete query["name"]
 	}
 
 	TagsProxy.getListByQuery(query, options, ep.done(function (data) {

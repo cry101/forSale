@@ -185,6 +185,27 @@
           {
             "name": "name",
             "in": "query",
+            "description": "名称",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "remark",
+            "in": "query",
+            "description": "备注",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page_no",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
             "description": "",
             "required": false,
             "type": "string"
@@ -1495,6 +1516,9 @@
           "format": "int64"
         },
         "name": {
+          "type": "string"
+        },
+        "remark": {
           "type": "string"
         }
       },

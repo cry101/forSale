@@ -6,7 +6,8 @@ var Schema    = mongoose.Schema;
  * 产品和分类按公司来管理
 */
 var CompanySchema = new Schema({
-	name: { type: String},
+	name: { type: String, unique: true},
+	remark: { type: String},
 });
 
 

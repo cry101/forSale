@@ -56,6 +56,8 @@ const list = (req, res, next) => {
 			...query,
 			name:  {$regex : reg}
 		}
+	} else {
+		delete query["name"]
 	}
 
 	UserProxy.getUsersByQuery(query, options, ep.done(function (data) {

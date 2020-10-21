@@ -37,6 +37,13 @@ exports.getListByQuery = function (query, opt, callback) {
 };
 
 /**
+ * 查询总条数
+*/
+exports.count = function (callback) {
+	Company.count({}, callback)
+};
+
+/**
  * 新增一个公司
  * @param {String} obj 提交的数据
  * @param {Function} callback 回调函数
@@ -44,6 +51,7 @@ exports.getListByQuery = function (query, opt, callback) {
 exports.newAndSave = function ( obj, callback) {
 	var company = new Company();
 	company.name = obj.name || '';
+	company.remark = obj.remark || '';
 
 	company.save(callback);
 };
