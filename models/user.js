@@ -15,9 +15,10 @@ var UserSchema = new Schema({
 	company_id: {type: String},
 	company_name: {type: String},
 
-	accessToken: {type: String},
+	isAdmin: {type: Boolean},
+	token: {type: String},
 });
 
-UserSchema.index({accessToken: 1});
+UserSchema.index({token: 1});
 
 mongoose.model('User', UserSchema);

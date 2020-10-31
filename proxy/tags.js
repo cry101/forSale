@@ -2,6 +2,20 @@ var models  = require('../models');
 var Tags    = models.Tags;
 
 /**
+ * 根据用户ID，查找分类
+ * Callback:
+ * - err, 数据库异常
+ * @param {String} id 用户ID
+ * @param {Function} callback 回调函数
+ */
+exports.getTagById = function (id, callback) {
+	if (!id) {
+		return callback();
+	}
+	Tags.findOne({_id: id}, callback);
+};
+
+/**
  * 根据id更新分类
  * Callback:
  * - err, 数据库异常
@@ -34,6 +48,13 @@ exports.delById = function (id, callback) {
  */
 exports.getListByQuery = function (query, opt, callback) {
 	Tags.find(query, '', opt, callback);
+};
+
+/**
+ * 查询总条数
+*/
+exports.count = function (callback) {
+	Tags.count({}, callback)
 };
 
 /**

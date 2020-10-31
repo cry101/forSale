@@ -15,7 +15,7 @@ exports.getUsersByNames = function (names, callback) {
 	if (names.length === 0) {
 		return callback(null, []);
 	}
-	User.find({ loginname: { $in: names } }, callback);
+	User.find({ nickName: { $in: names } }, callback);
 };
 
 /**
@@ -30,7 +30,7 @@ exports.getUserByToken = function (token, callback) {
 	if (!token) {
 		return callback();
 	}
-	User.findOne({'accessToken': token}, callback);
+	User.findOne({'token': token}, callback);
 };
 
 /**
@@ -98,17 +98,12 @@ exports.getUsersByQuery = function (query, opt, callback) {
 };
 
 /**
- * 根据查询条件，获取一个用户
- * Callback:
- * - err, 数据库异常
- * - user, 用户
- * @param {String} name 用户名
- * @param {String} key 激活码
- * @param {Function} callback 回调函数
- */
-exports.getUserByNameAndKey = function (loginname, key, callback) {
-	User.findOne({loginname: loginname, retrieve_key: key}, callback);
+ * 查询总条数
+*/
+exports.count = function (callback) {
+	User.count({}, callback)
 };
+
 
 exports.newAndSave = function ( obj, callback) {
 	var user = new User();
@@ -121,7 +116,7 @@ exports.newAndSave = function ( obj, callback) {
 	user.avatarUrl = obj.avatarUrl || '';
 	user.company_id = obj.company_id || '';
 	user.company_name = obj.company_name || '';
-	user.accessToken = uuid.v4();
+	user.token = uuid.v4();
 
 	user.save(callback);
 };

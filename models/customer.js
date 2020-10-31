@@ -5,13 +5,13 @@ var Schema    = mongoose.Schema;
 
 var CustomerSchema = new Schema({
 	name: { type: String},
-	nick_name: { type: String},
 	sex: { type: String},
 	birthday: { type: String},
-	is_remind: { type: Boolean}, //是否提醒
+	star: { type: Number}, //星级 1-5
 	address: {type: String},
-	products: {type: Array}, //常用产品
-	describe: {type: String},
+	products: {type: Array}, //常用产品 预留
+	tags: {type: Array}, // 常用标签
+	describe: {type: String}, // 描述
 	remark: {type: String},
 	record: {type: String}, //服务跟进记录
 	prepay: {type: Number}, //预付款

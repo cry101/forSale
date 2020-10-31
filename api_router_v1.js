@@ -31,7 +31,7 @@ router.get('/login', commonApi.login);
 router.post('/user', userApi.create);
 router.get('/user/:id', userApi.oneById);
 router.get('/users', userApi.list);
-router.get('/user/info', userApi.info);
+router.get('/userInfo', auth.userRequired, userApi.info);
 router.put('/user/:id', userApi.update);
 router.delete('/user/:id', userApi.del);
 
@@ -46,6 +46,7 @@ router.post('/tag', tagApi.create);
 router.get('/tags', tagApi.list);
 router.put('/tag/:id', tagApi.update);
 router.delete('/tag/:id', tagApi.del);
+router.get('/tag/:id', tagApi.oneById);
 
 // 产品
 router.post('/product', productApi.create);
@@ -67,14 +68,14 @@ router.delete('/customer/:id', auth.userRequired, customerApi.del);
 router.post('/record',auth.userRequired, recordApi.create);
 router.get('/record/:id',auth.userRequired, recordApi.oneById);
 router.get('/records',auth.userRequired, recordApi.list);
-router.put('/record/:id',auth.userRequired, recordApi.update);
+// router.put('/record/:id',auth.userRequired, recordApi.update);
 router.delete('/record/:id',auth.userRequired, recordApi.del);
 
-// 存
-router.post('/inventory',auth.userRequired, inventoryApi.create);
+// 库存
+// router.post('/inventory',auth.userRequired, inventoryApi.create);
 router.get('/inventory/:id',auth.userRequired, inventoryApi.oneById);
 router.get('/inventorys',auth.userRequired, inventoryApi.list);
-router.put('/inventory/:id',auth.userRequired, inventoryApi.update);
+// router.put('/inventory/:id',auth.userRequired, inventoryApi.update);
 router.delete('/inventory/:id',auth.userRequired, inventoryApi.del);
 
 module.exports = router;

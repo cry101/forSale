@@ -362,7 +362,7 @@
         }
       }
     },
-    "/user/info": {
+    "/userInfo": {
       "get": {
         "tags": [
           "user"
@@ -577,6 +577,40 @@
       }
     },
     "/tag/{id}": {
+      "get": {
+        "tags": [
+          "tags"
+        ],
+        "summary": "查找单条分类",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Tags"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
       "put": {
         "tags": [
           "tags"
@@ -720,7 +754,7 @@
             "type": "string"
           },
           {
-            "name": "tag",
+            "name": "tag_id",
             "in": "query",
             "description": "分类",
             "required": false,
@@ -851,8 +885,8 @@
         "tags": [
           "product"
         ],
-        "summary": "爬取产品数据",
-        "description": "",
+        "summary": "获取官网产品数据",
+        "description": "code 纽崔莱100 小n150 xs1000 雅姿200 家居科技300 个人护理400 家居护理700 辅销产品500 海外购2000",
         "consumes": [
           "application/json",
           "application/xml"
@@ -863,24 +897,33 @@
         ],
         "parameters": [
           {
-            "name": "url",
+            "name": "code",
             "in": "query",
-            "description": "爬取地址",
+            "description": "官方产品分类code",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "page_no",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "最大100",
+            "type": "number"
           },
           {
             "name": "company_id",
             "in": "query",
             "description": "公司id",
-            "required": true,
             "type": "string"
           },
           {
-            "name": "tag",
+            "name": "tag_id",
             "in": "query",
             "description": "分类id",
-            "required": true,
             "type": "string"
           }
         ],
@@ -918,7 +961,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Pet object that needs to be added to the store",
+            "description": "星级 star: 1-5",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Customer"
@@ -1098,7 +1141,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Pet object that needs to be added to the store",
+            "description": "type: true进 false销 / customer_id：客户id 为空代表自己 / is_net：顾客自己网购(不处理库存) true是 false否",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Record"
@@ -1140,9 +1183,23 @@
             "type": "string"
           },
           {
+            "name": "pro_id",
+            "in": "query",
+            "description": "查询对应产品记录",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "customer_id",
+            "in": "query",
+            "description": "查询对应顾客记录",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "type",
             "in": "query",
-            "description": "类型",
+            "description": "类型 true进 false销",
             "required": false,
             "type": "boolean"
           }
@@ -1198,44 +1255,6 @@
           }
         }
       },
-      "put": {
-        "tags": [
-          "record"
-        ],
-        "summary": "更新记录信息",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "updateUser",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "name that need to be updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Updated user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Record"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid user supplied"
-          },
-          "404": {
-            "description": "User not found"
-          }
-        }
-      },
       "delete": {
         "tags": [
           "record"
@@ -1264,47 +1283,6 @@
             "description": "User not found"
           }
         }
-      }
-    },
-    "/inventory": {
-      "post": {
-        "tags": [
-          "inventory"
-        ],
-        "summary": "新增库存记录",
-        "description": "",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Pet object that needs to be added to the store",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Inventory"
-            }
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
       }
     },
     "/inventorys": {
@@ -1378,44 +1356,6 @@
           }
         }
       },
-      "put": {
-        "tags": [
-          "inventory"
-        ],
-        "summary": "更新库存信息",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "updateUser",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "name that need to be updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Updated user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Inventory"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid user supplied"
-          },
-          "404": {
-            "description": "User not found"
-          }
-        }
-      },
       "delete": {
         "tags": [
           "inventory"
@@ -1448,15 +1388,6 @@
     }
   },
   "securityDefinitions": {
-    "petstore_auth": {
-      "type": "oauth2",
-      "authorizationUrl": "https://petstore.swagger.io/oauth/authorize",
-      "flow": "implicit",
-      "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
-      }
-    },
     "token": {
       "type": "apiKey",
       "name": "token",
@@ -1499,7 +1430,7 @@
           "type": "string",
           "example": "1"
         },
-        "accessToken": {
+        "token": {
           "type": "string",
           "example": "1"
         }
@@ -1557,7 +1488,7 @@
           "type": "integer",
           "format": "int64"
         },
-        "tag": {
+        "tag_id": {
           "type": "string"
         },
         "company_id": {
@@ -1571,8 +1502,8 @@
           "type": "string"
         },
         "price": {
-          "type": "string",
-          "example": "350"
+          "type": "array",
+          "example": [100, 200]
         },
         "bar_code": {
           "type": "string",
@@ -1594,10 +1525,6 @@
           "type": "string",
           "example": "cary"
         },
-        "nick_name": {
-          "type": "string",
-          "example": "1"
-        },
         "sex": {
           "type": "string",
           "example": "1|2"
@@ -1606,17 +1533,21 @@
           "type": "string",
           "example": "2000-01-01"
         },
-        "is_remind": {
-          "type": "boolean",
-          "example": true
+        "star": {
+          "type": "Number",
+          "example": 1
         },
         "address": {
           "type": "string",
           "example": "xxxx路555号"
         },
         "products": {
-          "type": "array",
-          "example": ["1","2"]
+          "type": "Array",
+          "example": "[1,2,3]"
+        },
+        "tags": {
+          "type": "Array",
+          "example": "[1,2,3]"
         },
         "describe": {
           "type": "string",
@@ -1652,22 +1583,28 @@
         },
         "pro_id": {
           "type": "string",
-          "example": "cary"
+          "example": "5f991346a064b62578023102"
         },
-        "number": {
-          "type": "string",
-          "example": "1"
+        "price_list": {
+          "type": "Array",
+          "example": [{ "price": 49.9, "amount": 1}]
         },
         "type": {
           "type": "boolean",
-          "example": "true"
-        },
-        "token": {
-          "type": "string",
-          "example": "xxxx"
+          "example": true
         },
         "remark": {
           "type": "string"
+        },
+        "customer_id": {
+          "type": "string"
+        },
+        "customer_name": {
+          "type": "string"
+        },
+        "is_net": {
+          "type": "boolean",
+          "example": false
         }
       },
       "xml": {
@@ -1683,18 +1620,15 @@
         },
         "pro_id": {
           "type": "string",
-          "example": "cary"
+          "example": "5f991346a064b62578023102"
         },
-        "number": {
-          "type": "string",
-          "example": "1"
+        "price_list": {
+          "type": "Array",
+          "example": [{ "price": 49.9, "amount": 1}]
         },
         "token": {
           "type": "string",
           "example": "xxxx"
-        },
-        "remark": {
-          "type": "string"
         }
       },
       "xml": {

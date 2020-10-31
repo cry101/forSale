@@ -52,6 +52,13 @@ exports.getListByQuery = function (query, opt, callback) {
 };
 
 /**
+ * 查询总条数
+*/
+exports.count = function (callback) {
+	Record.count({}, callback)
+};
+
+/**
  * 新增一个记录
  * @param {String} obj 提交的数据
  * @param {Function} callback 回调函数
@@ -59,14 +66,18 @@ exports.getListByQuery = function (query, opt, callback) {
 exports.newAndSave = function ( obj, callback) {
 	var record = new Record();
 
+	record.pro_id = obj.pro_id || ''
 	record.pro_name = obj.pro_name || ''
-	record.pro_price = obj.pro_price || ''
-	record.tag = obj.tag || ''
+	record.price_list = obj.price_list || {}
+	record.tag_id = obj.tag_id || ''
+	record.tag_name = obj.tag_name || ''
 	record.pic = obj.pic || ''
-	record.number = obj.number || ''
-	record.type = obj.type || ''
+	record.type = obj.type
 	record.token = obj.token || ''
 	record.remark = obj.remark || ''
+	record.customer_id = obj.customer_id || ''
+	record.customer_name = obj.customer_name || ''
+	record.is_net = obj.is_net
 
 	record.save(callback);
 };

@@ -8,6 +8,12 @@ var config = {
 	// debug 为 true 时，用于本地调试
 	debug: true,
 
+	appId: 'wxe14d811f3aec9108', // 微信小程序id
+	secret: '368d7719ff736cd27a0775deb7b30358', // 微信小程序secret
+
+	amwayUrl: 'https://api.amway.com.cn/commodity-center/v1/api/search/product', // 产品官网接口地址
+	amwayImageUrl: 'https://resources.amway.com.cn/',// 产品官网图片地址
+
 	page_size: 10,
 	get mini_assets() { return !this.debug; }, // 是否启用静态文件的合并压缩，详见视图中的Loader
 

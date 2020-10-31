@@ -14,7 +14,7 @@ exports.getProductById = function (id, callback) {
 	if (!id) {
 		return callback();
 	}
-	Product.findOne({_id: id}, callback);
+	Product.findById(id, callback);
 };
 
 /**
@@ -53,6 +53,13 @@ exports.getListByQuery = function (query, opt, callback) {
 };
 
 /**
+ * 查询总条数
+*/
+exports.count = function (callback) {
+	Product.count({}, callback)
+};
+
+/**
  * 新增一个产品
  * @param {String} obj 提交的数据
  * @param {Function} callback 回调函数
@@ -60,11 +67,12 @@ exports.getListByQuery = function (query, opt, callback) {
 exports.newAndSave = function ( obj, callback) {
 	var product = new Product();
 	product.name = obj.name || '';
+	product.product_code = obj.product_code || '';
 	product.company_id = obj.company_id || '';
-	product.tag = obj.tag || '';
-	product.price = obj.price || '';
+	product.tag_id = obj.tag_id || '';
+	product.tag_name = obj.tag_name || '';
+	product.price = obj.price || [];
 	product.pic = obj.pic || '';
 	product.bar_code = obj.bar_code || '';
-
 	product.save(callback);
 };

@@ -1,11 +1,12 @@
 const multer = require('multer');
 const path = require('path')
-var https = require("https")
+const axios = require('axios')
+const config = require("../../config")
 
 // 上传文件
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		cb(null, path.join(path.resolve('./'),"/public/uploads"))
+		cb(null, path.join(path.resolve('./'),"/public/upload"))
 	},
 	filename: function (req, file, cb) {
 		cb(null, file.fieldname + '_' + Date.now() + '.' + file.mimetype.split('/')[1])
@@ -20,11 +21,24 @@ const login = (req, res, next) => {
     if(!code) {
       	res.send({success: false, msg: '没有登录凭证'})
 	}
-	const appid = 'wxe14d811f3aec9108' // 测试
-	const secret = '368d7719ff736cd27a0775deb7b30358' // 测试
-	https.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${secret}&js_code=${code}&grant_type=authorization_code`, function (data) {
-		console.log(data)
-		res.send({ success: true, data: data});
+	const appid = config.appId // 测试
+	const secret = config.secret // 测试
+	axios.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${secret}&js_code=${code}&grant_type=authorization_code`)
+	.then(result => {
+		let data = result.data
+		const errMap = {
+			'-1': '系统繁忙',
+			'40029': 'code无效',
+			'45011': '频率限制，每个用户每分钟100次'
+		}
+		if (data.errcode) {
+			res.send({ success: false, code: data.errcode, msg: errMap[data.errcode] });
+		} else {
+			// { openid, session_key} 
+			res.send({ success: true, data: data.openid});
+		}
+	}).catch(e => {
+		res.send({ success: false, error: e});
 	})
 }
 

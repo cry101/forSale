@@ -16,12 +16,12 @@ const create = (req, res, next) => {
 			res.status(404);
 			return res.send({success: false, msg: '产品不存在'});
 		}
-		delete body['pro_id']
 		InventoryProxy.newAndSave({
 			...body,
 			pro_name: data.name,
 			pro_price: data.price,
 			tag: data.tag,
+			tag_id: data.tag_id,
 			pic: data.pic
 		}, ep.done(function (data) {
 			res.send({success: true, data: data});
@@ -36,8 +36,7 @@ const del = (req, res, next) => {
 
 	InventoryProxy.delById(req.params.id, ep.done(function (data) {
 		if (!data) {
-			res.status(404);
-			return res.send({success: false, msg: '记录不存在'});
+			return res.send({success: false, msg: '库存不存在'});
 		}
 		res.send({success: true, data: data});
 	}));
@@ -49,8 +48,7 @@ const update = (req, res, next) => {
 
 	InventoryProxy.updateById(req.params.id, req.body, ep.done(function (data) {
 		if (!data) {
-			res.status(404);
-			return res.send({success: false, msg: '记录不存在'});
+			return res.send({success: false, msg: '库存不存在'});
 		}
 		res.send({success: true, data: data});
 	}));
@@ -64,7 +62,7 @@ const list = (req, res, next) => {
 	let page_no = parseInt(query.page_no, 10) || 1;
 	page_no = page_no > 0 ? page_no : 1;
 	let page_size    = Number(query.page_size) || config.page_size;
-	let options = { skip: (page_no - 1) * page_size, limit: page_size, sort: '-top -last_reply_at'};
+	let options = { skip: (page_no - 1) * page_size, limit: page_size, sort: '-top -created_time'};
 
 	delete query["page_no"];
 	delete query["page_size"];
@@ -82,16 +80,24 @@ const list = (req, res, next) => {
 
 	query.token = req.headers.token;
 
-	InventoryProxy.getListByQuery(query, options, ep.done(function (data) {
-		res.send({success: true, data: data});
-	}));
+	InventoryProxy.count((err, sums) => {
+		InventoryProxy.getListByQuery(query, options, ep.done(function (data) {
+			res.send({
+				success: true, 
+				data: {
+					list: data,
+					total: sums
+				}
+			});
+		}));
+	})
 }
 
 const oneById = (req, res, next) => {
 	let ep = new eventproxy();
 	ep.fail(next);
 
-	InventoryProxy.getRecordById(req.params.id, ep.done(function (data) {
+	InventoryProxy.getInventoryById(req.params.id, ep.done(function (data) {
 		if (!data) {
 			res.status(404);
 			return res.send({success: false, msg: '记录不存在'});

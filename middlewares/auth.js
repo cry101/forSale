@@ -9,15 +9,14 @@ var UserProxy  = require('../proxy').User;
 exports.userRequired = function (req, res, next) {
 	let ep = new eventproxy()
 	if(!req.headers.token) {
-		res.send({success: false, msg: '没有用户token信息'})
+		return res.send({success: false, msg: '没有用户token信息'})
 	}
 	UserProxy.getUserByToken(req.headers.token, ep.done(function(data){
 		if (!data) {
-			return res.status(403).send('forbidden!');
+			return res.status(403).send({success: false, msg: 'token无效'});
 		}
 		next();
 	}))
-
 };
 
 
