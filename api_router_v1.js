@@ -33,6 +33,7 @@ router.get('/user/:id', userApi.oneById);
 router.get('/users', userApi.list);
 router.get('/userInfo', auth.userRequired, userApi.info);
 router.put('/user/:id', userApi.update);
+router.put('/userInfo', auth.userRequired, userApi.updateByToken);
 router.delete('/user/:id', userApi.del);
 
 // 公司

@@ -3,7 +3,7 @@
   "info": {
     "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
     "version": "1.0.0",
-    "title": "Swagger Petstore",
+    "title": "小程序服务",
     "termsOfService": "http://swagger.io/terms/",
     "contact": {
       "email": "apiteam@swagger.io"
@@ -98,7 +98,7 @@
           "common"
         ],
         "summary": "微信小程序登录接口",
-        "description": "",
+        "description": "登录获取的token放header里",
         "produces": [
           "application/x-www-form-urlencoded",
           "application/json"
@@ -301,8 +301,8 @@
         "tags": [
           "user"
         ],
-        "summary": "添加用户信息",
-        "description": "This can only be done by the logged in user.",
+        "summary": "添加用户信息，相当于注册",
+        "description": "username、password账号密码可以后续做个设置。company_id需要默认写死公司列表里的",
         "operationId": "createUser",
         "produces": [
           "application/json"
@@ -387,6 +387,37 @@
             "description": "User not found"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "根据用户token更新用户信息",
+        "description": "token在header里",
+        "operationId": "updateUser",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid user supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
       }
     },
     "/user/{id}": {
@@ -428,7 +459,7 @@
         "tags": [
           "user"
         ],
-        "summary": "更新用户信息",
+        "summary": "根据用户id更新用户信息",
         "description": "This can only be done by the logged in user.",
         "operationId": "updateUser",
         "produces": [
@@ -1388,12 +1419,15 @@
     }
   },
   "securityDefinitions": {
-    "token": {
+    "ApiKeyAuth": {
       "type": "apiKey",
       "name": "token",
       "in": "header"
     }
   },
+  "security": [
+    {"ApiKeyAuth": ["token"]}
+  ],
   "definitions": {
     "User": {
       "type": "object",
@@ -1412,7 +1446,7 @@
         },
         "language": {
           "type": "string",
-          "example": "zn"
+          "example": "zh"
         },
         "city": {
           "type": "string",
@@ -1428,11 +1462,23 @@
         },
         "avatarUrl": {
           "type": "string",
-          "example": "1"
+          "example": ""
         },
         "token": {
           "type": "string",
           "example": "1"
+        },
+        "company_id": {
+          "type": "string",
+          "example": ""
+        },
+        "username": {
+          "type": "string",
+          "example": ""
+        },
+        "password": {
+          "type": "string",
+          "example": ""
         }
       },
       "xml": {

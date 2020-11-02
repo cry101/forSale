@@ -1,7 +1,7 @@
 var models  = require('../models');
 var User    = models.User;
-var utility = require('utility');
-var uuid    = require('node-uuid');
+// var utility = require('utility');
+// var uuid    = require('node-uuid');
 
 /**
  * 根据用户名列表查找用户列表
@@ -61,6 +61,18 @@ exports.updateUserById = function (id, data, callback) {
 };
 
 /**
+ * 根据token更新用户
+ * Callback:
+ * - err, 数据库异常
+ * - user, 用户
+ * @param {String} token 用户token
+ * @param {Function} callback 回调函数
+ */
+exports.updateUserByToken = function (token, data, callback) {
+	User.updateOne({ token }, {$set: data}, callback)
+};
+
+/**
  * 根据id删除用户
  * Callback:
  * - err, 数据库异常
@@ -101,7 +113,7 @@ exports.getUsersByQuery = function (query, opt, callback) {
  * 查询总条数
 */
 exports.count = function (callback) {
-	User.count({}, callback)
+	User.countDocuments({}, callback)
 };
 
 
@@ -114,9 +126,12 @@ exports.newAndSave = function ( obj, callback) {
 	user.province = obj.province || '';
 	user.country = obj.country || '';
 	user.avatarUrl = obj.avatarUrl || '';
+
 	user.company_id = obj.company_id || '';
-	user.company_name = obj.company_name || '';
-	user.token = uuid.v4();
+	user.token = obj.token || ''; // uuid.v4();
+
+	user.username = obj.username || '';
+	user.password = obj.password || '';
 
 	user.save(callback);
 };

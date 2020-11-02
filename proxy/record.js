@@ -55,7 +55,7 @@ exports.getListByQuery = function (query, opt, callback) {
  * 查询总条数
 */
 exports.count = function (callback) {
-	Record.count({}, callback)
+	Record.countDocuments({}, callback)
 };
 
 /**

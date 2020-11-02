@@ -161,12 +161,17 @@ const del = (req, res, next) => {
 		})
 
 		ep.all('del',function(del) {
-			RecordProxy.delById(id, ep.done(function (data) {
-				if (!data) {
-					return res.send({success: false, msg: '记录不存在'});
-				}
-				res.send({success: true, msg: '删除成功', data: del });
-			}))
+			let id = req.params.id
+			if (id.match(/^[0-9a-fA-F]{24}$/)) {
+				RecordProxy.delById(id, ep.done(function (data) {
+					if (!data) {
+						return res.send({success: false, msg: '记录不存在'});
+					}
+					res.send({success: true, msg: '删除成功', data: del });
+				}))
+			} else {
+				res.send({success: false, msg: '记录id有误'});
+			}
 		})
 	} else {
 		res.send({success: false, msg: '记录id有误'});
@@ -228,13 +233,18 @@ const oneById = (req, res, next) => {
 	let ep = new eventproxy();
 	ep.fail(next);
 
-	RecordProxy.getRecordById(req.params.id, ep.done(function (data) {
-		if (!data) {
-			res.status(404);
-			return res.send({success: false, msg: '记录不存在'});
-		}
-		res.send({success: true, data: data});
-	}));
+	let id = req.params.id
+	if (id.match(/^[0-9a-fA-F]{24}$/)) {
+		RecordProxy.getRecordById(id, ep.done(function (data) {
+			if (!data) {
+				res.status(404);
+				return res.send({success: false, msg: '记录不存在'});
+			}
+			res.send({success: true, data: data});
+		}));
+	} else {
+		res.send({success: false, msg: '记录id有误'});
+	}
 }
 
 exports.create = create

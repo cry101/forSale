@@ -12,11 +12,14 @@ var UserSchema = new Schema({
 	province: {type: String},
 	country: { type: String },
 	avatarUrl: { type: String },
+	
 	company_id: {type: String},
-	company_name: {type: String},
 
 	isAdmin: {type: Boolean},
 	token: {type: String},
+
+	username: {type: String},
+	password: {type: String},
 });
 
 UserSchema.index({token: 1});
