@@ -26,13 +26,15 @@ const login = (req, res, next) => {
 	axios.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${secret}&js_code=${code}&grant_type=authorization_code`)
 	.then(result => {
 		let data = result.data
+		console.log(data)
 		const errMap = {
 			'-1': '系统繁忙',
 			'40029': 'code无效',
-			'45011': '频率限制，每个用户每分钟100次'
+			'45011': '频率限制，每个用户每分钟100次',
+			'40013': 'appId有误'
 		}
 		if (data.errcode) {
-			res.send({ success: false, code: data.errcode, msg: errMap[data.errcode] });
+			res.send({ success: false, code: data.errcode, msg: errMap[data.errcode], errmsg: data.errmsg });
 		} else {
 			// { openid, session_key} 
 			res.send({ success: true, data: data.openid});
