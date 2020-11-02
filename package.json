@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "db": "C: && cd C:/Program Files/MongoDB/Server/4.4/bin && mongod --dbpath C:/data/db"
+    "db": "C: && cd C:/Program Files/MongoDB/Server/4.4/bin && mongod --dbpath C:/data/db",
+    "auth": "C: && cd C:/Program Files/MongoDB/Server/4.4/bin && mongod --dbpath C:/data/db --auth"
   },
   "dependencies": {
     "axios": "^0.21.0",
