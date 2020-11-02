@@ -13,7 +13,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost:3000",
+  "host": "47.115.136.68/:3000",
   "basePath": "/api/v1",
   "tags": [
     {
@@ -114,9 +114,9 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "返回token",
             "schema": {
-              "$ref": "#/definitions/User"
+              "data": "xxxx"
             }
           },
           "400": {

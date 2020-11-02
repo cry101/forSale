@@ -8,8 +8,11 @@ var config = {
 	// debug 为 true 时，用于本地调试
 	debug: true,
 
-	appId: 'wxe14d811f3aec9108', // 微信小程序id
-	secret: '368d7719ff736cd27a0775deb7b30358', // 微信小程序secret
+	// appId: 'wxe14d811f3aec9108', // 测试微信小程序id
+	// secret: '368d7719ff736cd27a0775deb7b30358', // 测试微信小程序secret
+
+	appid: 'wx91db3a21c0363590',
+	secret: '24290a1651cc0379a9c549a0947710b0',
 
 	amwayUrl: 'https://api.amway.com.cn/commodity-center/v1/api/search/product', // 产品官网接口地址
 	amwayImageUrl: 'https://resources.amway.com.cn/',// 产品官网图片地址
