@@ -1509,6 +1509,9 @@
         "code": {
           "type": "string"
         },
+        "sort": {
+          "type": "number"
+        },
         "company_id": {
           "type": "string"
         }

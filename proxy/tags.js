@@ -67,6 +67,7 @@ exports.newAndSave = function ( obj, callback) {
 	tag.name = obj.name || '';
 	tag.company_id = obj.company_id || '';
 	tag.code = obj.code || '';
+	tag.sort = obj.sort || 0;
 
 	tag.save(callback);
 };
