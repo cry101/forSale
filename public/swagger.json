@@ -185,7 +185,6 @@
             "name": "name",
             "in": "query",
             "description": "名称",
-            "required": true,
             "type": "string"
           },
           {
@@ -1568,6 +1567,10 @@
         "name": {
           "type": "string",
           "example": "cary"
+        },
+        "mobile": {
+          "type": "string",
+          "example": "18750042222"
         },
         "sex": {
           "type": "string",

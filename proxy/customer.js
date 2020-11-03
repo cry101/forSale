@@ -66,6 +66,7 @@ exports.count = function (query, callback) {
 exports.newAndSave = function ( obj, callback) {
 	var customer = new Customer();
 	customer.name = obj.name || ''
+	customer.mobile = obj.mobile || ''
 	customer.sex = obj.sex || ''
 	customer.birthday = obj.birthday || ''
 	customer.star = obj.star || 1 //是否提醒

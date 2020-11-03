@@ -1,9 +1,9 @@
 #!/bin/bash
 
-WEB_PATH='/App/forSale'
+# WEB_PATH='/App/forSale'
 
 echo "Start deployment"
-cd $WEB_PATH
+# cd $WEB_PATH
 echo "pulling source code..."
 git reset --hard origin/master
 git clean -f

@@ -5,6 +5,7 @@ var Schema    = mongoose.Schema;
 
 var CustomerSchema = new Schema({
 	name: { type: String},
+	mobile: { type: String},
 	sex: { type: String},
 	birthday: { type: String},
 	star: { type: Number}, //星级 1-5
