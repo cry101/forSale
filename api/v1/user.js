@@ -15,8 +15,8 @@ const create = (req, res, next) => {
 	UserProxy.getUsersByQuery({ token }, {}, ep.doneLater('token'))
 
 	ep.once('token', token => {
-		if (token) {
-			return res.send({success: false, msg: '该用户已注册'})
+		if (token.length > 0) {
+			return res.send({success: false, msg: '该用户token已被注册'})
 		} else {
 			if (body.username) {
 				if (/[a-zA-Z0-9]{6,}/.test(body.username) && /[a-zA-Z0-9]{6,}/.test(body.password)) {
@@ -184,7 +184,7 @@ const info = (req, res, next) => {
 
 	UserProxy.getUserByToken(req.headers.token, ep.done(function(data){
 		if (!data) {
-			return res.status(403).send({success: false, msg: 'token无效'});
+			return res.send({success: true, data: null, msg: '请注册！'});
 		}
 		res.send({ success: true, data: data});
 	}))
