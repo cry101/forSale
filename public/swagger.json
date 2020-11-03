@@ -1638,20 +1638,24 @@
         },
         "type": {
           "type": "boolean",
-          "example": true
+          "example": true,
+          "description": "true进 false销"
         },
         "remark": {
           "type": "string"
         },
         "customer_id": {
-          "type": "string"
+          "type": "string",
+          "description": "顾客id 可为空"
         },
         "customer_name": {
-          "type": "string"
+          "type": "string",
+          "description": "顾客姓名 和id一起传呗"
         },
         "is_net": {
           "type": "boolean",
-          "example": false
+          "example": false,
+          "description": "顾客自己网购 true是 false否"
         }
       },
       "xml": {
@@ -1674,6 +1678,14 @@
           "example": [{ "price": 49.9, "amount": 1}]
         },
         "token": {
+          "type": "string",
+          "example": "xxxx"
+        },
+        "tag_id": {
+          "type": "string",
+          "example": "xxxx"
+        },
+        "tag_name": {
           "type": "string",
           "example": "xxxx"
         }

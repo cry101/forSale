@@ -2,16 +2,25 @@ var http = require('http')
 var createHandler = require('github-webhook-handler')
 var handler = createHandler({ path: '/autodeploy', secret: 'cary101' }) 
 // 上面的 secret 保持和 GitHub 后台设置的一致
+const { spawn } = require('child_process');
 
-function run_cmd(cmd, args, callback) {
-    var spawn = require('child_process').spawn;
-    var child = spawn(cmd, args);
-    var resp = "";
+function run_cmd() {
+    const bat = spawn('cmd.exe', ['/c', 'deploy.bat']);
 
-    child.stdout.on('data', function(buffer) { resp += buffer.toString(); });
-    child.stdout.on('end', function() { callback (resp) });
+    bat.stdout.on('data', (data) => {
+        console.log(data.toString());
+    });
+
+    bat.stderr.on('data', (data) => {
+        console.error(data.toString());
+    });
+
+    bat.on('exit', (code) => {
+        console.log(`Child exited with code ${code}`);
+    });
 }
 
+run_cmd()
 http.createServer(function (req, res) {
     handler(req, res, function (err) {
         res.statusCode = 404
@@ -28,7 +37,7 @@ handler.on('push', function (event) {
     console.log('Received a push event for %s to %s',
         event.payload.repository.name,
         event.payload.ref);
-    run_cmd('sh', ['./deploy.sh'], function(text){ console.log(text) });
+    run_cmd();
 })
 
 /*

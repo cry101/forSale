@@ -74,11 +74,11 @@ const list = (req, res, next) => {
 		}
 	}
 	//模糊搜索
-	if(query.name) {
-		const reg = new RegExp(query.name, 'i')
+	if(query.pro_name) {
+		const reg = new RegExp(query.pro_name, 'i')
 		query = {
 			...query,
-			name:  {$regex : reg}
+			pro_name:  {$regex : reg}
 		}
 	}
 
