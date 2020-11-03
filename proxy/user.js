@@ -112,8 +112,8 @@ exports.getUsersByQuery = function (query, opt, callback) {
 /**
  * 查询总条数
 */
-exports.count = function (callback) {
-	User.countDocuments({}, callback)
+exports.count = function (query, callback) {
+	User.countDocuments(query, callback)
 };
 
 

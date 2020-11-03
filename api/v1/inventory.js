@@ -67,6 +67,12 @@ const list = (req, res, next) => {
 	delete query["page_no"];
 	delete query["page_size"];
 
+	// 过滤空查询
+	for(let i in query) {
+		if (!query[i]) {
+			delete query[i]
+		}
+	}
 	//模糊搜索
 	if(query.name) {
 		const reg = new RegExp(query.name, 'i')
@@ -74,13 +80,11 @@ const list = (req, res, next) => {
 			...query,
 			name:  {$regex : reg}
 		}
-	} else {
-		delete query["name"]
 	}
 
 	query.token = req.headers.token;
 
-	InventoryProxy.count((err, sums) => {
+	InventoryProxy.count(query, (err, sums) => {
 		InventoryProxy.getListByQuery(query, options, ep.done(function (data) {
 			res.send({
 				success: true, 

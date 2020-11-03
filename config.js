@@ -14,6 +14,7 @@ var config = {
 	appId: 'wx91db3a21c0363590',
 	secret: '24290a1651cc0379a9c549a0947710b0',
 
+	// 官网地址 https://mall.amway.com.cn/productList?code=100
 	amwayUrl: 'https://api.amway.com.cn/commodity-center/v1/api/search/product', // 产品官网接口地址
 	amwayImageUrl: 'https://resources.amway.com.cn/',// 产品官网图片地址
 

@@ -53,8 +53,8 @@ exports.getListByQuery = function (query, opt, callback) {
 /**
  * 查询总条数
 */
-exports.count = function (callback) {
-	Tags.countDocuments({}, callback)
+exports.count = function (query, callback) {
+	Tags.countDocuments(query, callback)
 };
 
 /**
@@ -66,6 +66,7 @@ exports.newAndSave = function ( obj, callback) {
 	var tag = new Tags();
 	tag.name = obj.name || '';
 	tag.company_id = obj.company_id || '';
+	tag.code = obj.code || '';
 
 	tag.save(callback);
 };

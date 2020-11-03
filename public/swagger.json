@@ -771,16 +771,9 @@
             "type": "string"
           },
           {
-            "name": "bar_code",
-            "in": "query",
-            "description": "条码",
-            "required": false,
-            "type": "string"
-          },
-          {
             "name": "company_id",
             "in": "query",
-            "description": "公司id",
+            "description": "公司id 先不传",
             "required": false,
             "type": "string"
           },
@@ -1511,6 +1504,9 @@
           "format": "int64"
         },
         "name": {
+          "type": "string"
+        },
+        "code": {
           "type": "string"
         },
         "company_id": {

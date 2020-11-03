@@ -77,7 +77,7 @@ const list = (req, res, next) => {
 		delete query["name"]
 	}
 
-	CompanyProxy.count((err, sums) => {
+	CompanyProxy.count(query, (err, sums) => {
 		CompanyProxy.getListByQuery(query, options, ep.done(function (data) {
 			res.send({
 				success: true, 

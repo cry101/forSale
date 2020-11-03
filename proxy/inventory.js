@@ -81,8 +81,8 @@ exports.getListByQuery = function (query, opt, callback) {
 /**
  * 查询总条数
 */
-exports.count = function (callback) {
-	Inventory.countDocuments({}, callback)
+exports.count = function (query, callback) {
+	Inventory.countDocuments(query, callback)
 };
 
 /**

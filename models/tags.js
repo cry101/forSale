@@ -5,6 +5,7 @@ var Schema    = mongoose.Schema;
 
 var TagsSchema = new Schema({
 	name: { type: String},
+	code: { type: String}, // 对应官网编码
 	company_id: {type: String},
 });
 
