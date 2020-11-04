@@ -70,10 +70,7 @@ const updateByToken = (req, res, next) => {
 		}
 	})
 	ep.once('save', () => {
-		UserProxy.updateUserByToken(req.headers.token, {
-			...body,
-			token: req.headers.token
-		}, ep.done(function (data) {
+		UserProxy.updateUserByToken(req.headers.token, body, ep.done(function (data) {
 			if (!data) {
 				return res.send({success: false, msg: '用户不存在'});
 			}
@@ -88,7 +85,7 @@ const update = (req, res, next) => {
 	ep.fail(next);
 
 	let id = req.params.id
-	if (id.match(/^[0-9a-fA-F]{24}$/)) {
+	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		UserProxy.updateUserById(id, req.body, ep.done(function (data) {
 			if (!data) {
 				// res.status(404);
@@ -147,7 +144,7 @@ const del = (req, res, next) => {
 	ep.fail(next);
 
 	let id = req.params.id
-	if (id.match(/^[0-9a-fA-F]{24}$/)) {
+	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		UserProxy.delUserById(id, ep.done(function (data) {
 			if (!data) {
 				// res.status(404);
@@ -165,7 +162,7 @@ const oneById = (req, res, next) => {
 	ep.fail(next);
 
 	let id = req.params.id
-	if (id.match(/^[0-9a-fA-F]{24}$/)) {
+	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		UserProxy.getUserById(id, ep.done(function (data) {
 			if (!data) {
 				res.status(404);

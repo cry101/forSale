@@ -24,6 +24,8 @@ require('./customer');
 require('./record')
 require('./inventory')
 require('./product');
+require('./customer_record')
+require('./customer_event')
 
 
 exports.User = mongoose.model('User');
@@ -33,3 +35,5 @@ exports.Customer = mongoose.model('Customer');
 exports.Record = mongoose.model('Record');
 exports.Inventory = mongoose.model('Inventory');
 exports.Product = mongoose.model('Product');
+exports.CusRecord = mongoose.model('CusRecord');
+exports.CusEvent = mongoose.model('CusEvent');

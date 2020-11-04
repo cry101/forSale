@@ -1,12 +1,12 @@
 const eventproxy = require('eventproxy');
-const TagsProxy    = require('../../proxy').Tag;
+const CusRecordProxy    = require('../../proxy').CusRecord;
 const config = require('../../config');
 
 
 const create = (req, res, next) => {
 	let ep = new eventproxy();
 	ep.fail(next);
-	TagsProxy.newAndSave(req.body, ep.done(function (data) {
+	CusRecordProxy.newAndSave(req.body, ep.done(function (data) {
 		res.send({success: true, data: data});
 	}));
 }
@@ -17,15 +17,15 @@ const del = (req, res, next) => {
 
 	let id = req.params.id
 	if (/^[0-9a-fA-F]{24}$/.test(id)) {
-		TagsProxy.delById(id, ep.done(function (data) {
+		CusRecordProxy.delById(id, ep.done(function (data) {
 			if (!data) {
 				res.status(404);
-				return res.send({success: false, msg: '分类不存在'});
+				return res.send({success: false, msg: '记录不存在'});
 			}
 			res.send({success: true, data: data});
 		}));
 	} else {
-		res.send({success: false, msg: '分类id有误'});
+		res.send({success: false, msg: '记录id有误'});
 	}
 	
 }
@@ -36,15 +36,15 @@ const update = (req, res, next) => {
 
 	let id = req.params.id
 	if (/^[0-9a-fA-F]{24}$/.test(id)) {
-		TagsProxy.updateById(id, req.body, ep.done(function (data) {
+		CusRecordProxy.updateById(id, req.body, ep.done(function (data) {
 			if (!data) {
 				res.status(404);
-				return res.send({success: false, msg: '分类不存在'});
+				return res.send({success: false, msg: '记录不存在'});
 			}
 			res.send({success: true, data: data});
 		}));
 	} else {
-		res.send({success: false, msg: '分类id有误'});
+		res.send({success: false, msg: '记录id有误'});
 	}
 }
 
@@ -61,24 +61,13 @@ const list = (req, res, next) => {
 	delete query["page_no"];
 	delete query["page_size"];
 
-	// 过滤空查询
-	for(let i in query) {
-		if (!query[i]) {
-			delete query[i]
-		}
-	}
-
 	//模糊搜索
-	if(query.name) {
-		const reg = new RegExp(query.name, 'i')
-		query = {
-			...query,
-			name:  {$regex : reg}
-		}
+	if(!query.customer_id) {
+		return res.send({success: false, msg: '缺少顾客id'});
 	}
 
-	TagsProxy.count(query, (err, sums) => {
-		TagsProxy.getListByQuery(query, options, ep.done(function (data) {
+	CusRecordProxy.count({ customer_id: query.customer_id }, (err, sums) => {
+		CusRecordProxy.getListByQuery({ customer_id: query.customer_id }, options, ep.done(function (data) {
 			res.send({
 				success: true, 
 				data: {
@@ -96,36 +85,15 @@ const oneById = (req, res, next) => {
 
 	let id = req.params.id
 	if (/^[0-9a-fA-F]{24}$/.test(id)) {
-		TagsProxy.getTagById(id, ep.done(function (data) {
+		CusRecordProxy.getTagById(id, ep.done(function (data) {
 			if (!data) {
 				// res.status(404);
-				return res.send({success: false, msg: '分类不存在'});
+				return res.send({success: false, msg: '记录不存在'});
 			}
 			res.send({success: true, data: data});
 		}));
 	} else {
-		res.send({success: false, msg: '分类id有误'});
-	}
-}
-
-const tagList = (req, res, next) => {
-	let ep = new eventproxy();
-	ep.fail(next);
-
-	let ids = req.body.ids // [1,2,3]
-	let flag = false
-	for(let i = 0; i < ids.length; i++) {
-		if (!/^[0-9a-fA-F]{24}$/.test(ids[i])) {
-			flag = true
-			break
-		}
-	}
-	if (ids instanceof Array && !flag) {
-		TagsProxy.getTagsByIds(ids, ep.done(function (data) {
-			res.send({success: true, data: data});
-		}));
-	} else {
-		res.send({success: false, msg: '传参格式有误'});
+		res.send({success: false, msg: '记录id有误'});
 	}
 }
 
@@ -134,4 +102,3 @@ exports.del = del
 exports.update = update
 exports.list = list
 exports.oneById = oneById
-exports.tagList = tagList

@@ -10,6 +10,8 @@ const productApi = require('./api/v1/product');
 const customerApi = require('./api/v1/customer');
 const recordApi = require('./api/v1/record');
 const inventoryApi = require('./api/v1/inventory');
+const cusEventApi = require('./api/v1/customer_event');
+const cusRecordApi = require('./api/v1/customer_record');
 
 // const middleware        = require('./api/v1/middleware');
 // const limit             = require('./middlewares/limit');
@@ -30,32 +32,34 @@ router.get('/login', commonApi.login);
 // 用户
 router.post('/user', userApi.create);
 router.get('/user/:id', userApi.oneById);
-router.get('/users', userApi.list);
+router.get('/users', auth.adminRequired, userApi.list);
 router.get('/userInfo', auth.userRequired, userApi.info);
 router.put('/user/:id', userApi.update);
 router.put('/userInfo', auth.userRequired, userApi.updateByToken);
-router.delete('/user/:id', userApi.del);
+router.delete('/user/:id', auth.adminRequired, userApi.del);
 
 // 公司
-router.post('/company', companyApi.create);
+router.post('/company', auth.adminRequired, companyApi.create);
 router.get('/companys', companyApi.list);
-router.put('/company/:id', companyApi.update);
-router.delete('/company/:id', companyApi.del);
+router.put('/company/:id', auth.adminRequired, companyApi.update);
+router.delete('/company/:id', auth.adminRequired, companyApi.del);
 
 // 分类
-router.post('/tag', tagApi.create);
+router.post('/tag', auth.adminRequired, tagApi.create);
 router.get('/tags', tagApi.list);
-router.put('/tag/:id', tagApi.update);
-router.delete('/tag/:id', tagApi.del);
+router.put('/tag/:id', auth.adminRequired, tagApi.update);
+router.delete('/tag/:id', auth.adminRequired, tagApi.del);
 router.get('/tag/:id', tagApi.oneById);
+router.post('/tagByids', tagApi.tagList);
 
 // 产品
-router.post('/product', productApi.create);
+router.post('/product', auth.adminRequired, productApi.create);
 router.get('/product/:id', productApi.oneById);
 router.get('/products', productApi.list);
-router.put('/product/:id', productApi.update);
-router.delete('/product/:id', productApi.del);
-router.post('/product/fetch', productApi.fetch);
+router.put('/product/:id', auth.adminRequired, productApi.update);
+router.delete('/product/:id', auth.adminRequired, productApi.del);
+router.post('/product/fetch', auth.adminRequired, productApi.fetch);
+router.post('/productByIds', productApi.proList)
 
 
 // 客户
@@ -64,6 +68,20 @@ router.get('/customer/:id', auth.userRequired, customerApi.oneById);
 router.get('/customers', auth.userRequired, customerApi.list);
 router.put('/customer/:id', auth.userRequired, customerApi.update);
 router.delete('/customer/:id', auth.userRequired, customerApi.del);
+
+// 客户跟进记录
+router.post('/cusRecord', auth.userRequired, cusRecordApi.create);
+router.get('/cusRecord/:id', auth.userRequired, cusRecordApi.oneById);
+router.get('/cusRecords', auth.userRequired, cusRecordApi.list);
+router.put('/cusRecord/:id', auth.userRequired, cusRecordApi.update);
+router.delete('/cusRecord/:id', auth.userRequired, cusRecordApi.del);
+
+// 客户重要事件
+router.post('/cusEvent', auth.userRequired, cusEventApi.create);
+router.get('/cusEvent/:id', auth.userRequired, cusEventApi.oneById);
+router.get('/cusEvents', auth.userRequired, cusEventApi.list);
+router.put('/cusEvent/:id', auth.userRequired, cusEventApi.update);
+router.delete('/cusEvent/:id', auth.userRequired, cusEventApi.del);
 
 // 进销
 router.post('/record',auth.userRequired, recordApi.create);

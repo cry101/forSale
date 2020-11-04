@@ -95,7 +95,7 @@ const del = (req, res, next) => {
 	ep.fail(next);
 
 	let id = req.params.id
-	if (id.match(/^[0-9a-fA-F]{24}$/)) {
+	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		ProductsProxy.delById(id, ep.done(function (data) {
 			if (!data) {
 				return res.send({success: false, msg: '产品不存在'});
@@ -178,7 +178,7 @@ const oneById = (req, res, next) => {
 	ep.fail(next);
 
 	let id = req.params.id
-	if (id.match(/^[0-9a-fA-F]{24}$/)) {
+	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		ProductsProxy.getProductById(id, ep.done(function (data) {
 			if (!data) {
 				// res.status(404);
@@ -191,9 +191,31 @@ const oneById = (req, res, next) => {
 	}
 }
 
+const proList = (req, res, next) => {
+	let ep = new eventproxy();
+	ep.fail(next);
+
+	let ids = req.body.ids // [1,2,3]
+	let flag = false
+	for(let i = 0; i < ids.length; i++) {
+		if (!/^[0-9a-fA-F]{24}$/.test(ids[i])) {
+			flag = true
+			break
+		}
+	}
+	if (ids instanceof Array && !flag) {
+		ProductsProxy.getProductByIds(ids, ep.done(function (data) {
+			res.send({success: true, data: data});
+		}));
+	} else {
+		res.send({success: false, msg: '传参格式有误'});
+	}
+}
+
 exports.fetch = fetch
 exports.create = create
 exports.del = del
 exports.update = update
 exports.list = list
 exports.oneById = oneById
+exports.proList = proList

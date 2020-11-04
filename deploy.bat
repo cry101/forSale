@@ -8,5 +8,7 @@ git clean -f
 git pull
 git checkout master
 call npm install
-npm run start
+forever stop 1
+forever start ./bin/www
+@REM npm run start
 echo "Finished."

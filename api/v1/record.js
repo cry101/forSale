@@ -13,7 +13,7 @@ const create = (req, res, next) => {
 	body.token = req.headers.token;
 	let pro_id = body.pro_id
 	// todo 进销存逻辑
-	if (!pro_id.match(/^[0-9a-fA-F]{24}$/)) return res.send({success: false, msg: '产品id有误'});
+	if (!/^[0-9a-fA-F]{24}$/.test(pro_id)) return res.send({success: false, msg: '产品id有误'});
 	// 获取产品信息
 	ProductsProxy.getProductById(pro_id, ep.doneLater('pro'));
 
@@ -118,7 +118,7 @@ const del = (req, res, next) => {
 	ep.fail(next);
 
 	let id = req.params.id
-	if (id.match(/^[0-9a-fA-F]{24}$/)) {
+	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		// 查询记录出来 处理库存
 		RecordProxy.getRecordById(id, ep.doneLater('record'))
 
@@ -172,7 +172,7 @@ const del = (req, res, next) => {
 
 		ep.all('del',function(del) {
 			let id = req.params.id
-			if (id.match(/^[0-9a-fA-F]{24}$/)) {
+			if (/^[0-9a-fA-F]{24}$/.test(id)) {
 				RecordProxy.delById(id, ep.done(function (data) {
 					if (!data) {
 						return res.send({success: false, msg: '记录不存在'});
@@ -248,7 +248,7 @@ const oneById = (req, res, next) => {
 	ep.fail(next);
 
 	let id = req.params.id
-	if (id.match(/^[0-9a-fA-F]{24}$/)) {
+	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		RecordProxy.getRecordById(id, ep.done(function (data) {
 			if (!data) {
 				res.status(404);

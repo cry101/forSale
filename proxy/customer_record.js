@@ -1,5 +1,5 @@
 var models  = require('../models');
-var Tags    = models.Tags;
+var CusRecord    = models.CusRecord;
 
 /**
  * 根据用户ID，查找分类
@@ -8,11 +8,11 @@ var Tags    = models.Tags;
  * @param {String} id 用户ID
  * @param {Function} callback 回调函数
  */
-exports.getTagById = function (id, callback) {
+exports.getById = function (id, callback) {
 	if (!id) {
 		return callback();
 	}
-	Tags.findOne({_id: id}, callback);
+	CusRecord.findOne({_id: id}, callback);
 };
 
 /**
@@ -23,7 +23,7 @@ exports.getTagById = function (id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.updateById = function (id, data, callback) {
-	Tags.updateOne({_id: id}, {$set: data}, callback)
+	CusRecord.updateOne({_id: id}, {$set: data}, callback)
 };
 
 /**
@@ -34,7 +34,7 @@ exports.updateById = function (id, data, callback) {
  * @param {Function} callback 回调函数
  */
 exports.delById = function (id, callback) {
-	Tags.deleteOne({_id: id}, callback)
+	CusRecord.deleteOne({_id: id}, callback)
 };
 
 /**
@@ -47,39 +47,29 @@ exports.delById = function (id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getListByQuery = function (query, opt, callback) {
-	Tags.find(query, '', opt, callback);
+	CusRecord.find(query, '', opt, callback);
 };
 
 /**
  * 查询总条数
 */
 exports.count = function (query, callback) {
-	Tags.countDocuments(query, callback)
+	CusRecord.countDocuments(query, callback)
 };
 
 /**
- * 新增一个分类
+ * 新增
  * @param {String} obj 提交的数据
  * @param {Function} callback 回调函数
 * */
 exports.newAndSave = function ( obj, callback) {
-	var tag = new Tags();
-	tag.name = obj.name || '';
-	tag.company_id = obj.company_id || '';
-	tag.code = obj.code || '';
-	tag.sort = obj.sort || 0;
+	var record = new CusRecord();
+	record.name = obj.name || '';
+	record.date = obj.date || '';
+	record.customer_id = obj.customer_id;
+	record.content = obj.content || '';
+	record.deal = obj.deal || false;
+	record.reason = obj.reason || '';
 
-	tag.save(callback);
-};
-
-/**
- * 根据ID列表，获取一组数据
- * Callback:
- * - err, 数据库异常
- * - users, 数据列表
- * @param {Array} ids ID列表
- * @param {Function} callback 回调函数
- */
-exports.getTagsByIds = function (ids, callback) {
-	Tags.find({'_id': {'$in': ids}}, callback);
+	record.save(callback);
 };

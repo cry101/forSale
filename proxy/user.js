@@ -50,6 +50,7 @@ exports.getUserById = function (id, callback) {
 
 /**
  * 根据id更新用户
+ * desc 无法更改token、company_id、isAdmin
  * Callback:
  * - err, 数据库异常
  * - user, 用户
@@ -57,7 +58,19 @@ exports.getUserById = function (id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.updateUserById = function (id, data, callback) {
-	User.updateOne({_id: id}, {$set: data}, callback)
+	const userData = {
+		nickName: data.nickName,
+		gender: data.gender,
+		language: data.language,
+		city: data.city,
+		province: data.province,
+		country: data.country,
+		avatarUrl: data.avatarUrl,
+		username: data.username,
+		password: data.password,
+	}
+	
+	User.updateOne({_id: id}, {$set: userData}, callback)
 };
 
 /**
@@ -69,7 +82,18 @@ exports.updateUserById = function (id, data, callback) {
  * @param {Function} callback 回调函数
  */
 exports.updateUserByToken = function (token, data, callback) {
-	User.updateOne({ token }, {$set: data}, callback)
+	const userData = {
+		nickName: data.nickName,
+		gender: data.gender,
+		language: data.language,
+		city: data.city,
+		province: data.province,
+		country: data.country,
+		avatarUrl: data.avatarUrl,
+		username: data.username,
+		password: data.password,
+	}
+	User.updateOne({ token }, {$set: userData}, callback)
 };
 
 /**

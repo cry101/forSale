@@ -76,3 +76,15 @@ exports.newAndSave = function ( obj, callback) {
 	product.bar_code = obj.bar_code || '';
 	product.save(callback);
 };
+
+/**
+ * 根据ID列表，获取一组数据
+ * Callback:
+ * - err, 数据库异常
+ * - users, 数据列表
+ * @param {Array} ids ID列表
+ * @param {Function} callback 回调函数
+ */
+exports.getProductByIds = function (ids, callback) {
+	Product.find({'_id': {'$in': ids}}, callback);
+};

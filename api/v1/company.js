@@ -22,7 +22,7 @@ const del = (req, res, next) => {
 	ep.fail(next);
 
 	let id = req.params.id
-	if (id.match(/^[0-9a-fA-F]{24}$/)) {
+	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		CompanyProxy.delById(id, ep.done(function (data) {
 			if (!data) {
 				res.status(404);
@@ -40,7 +40,7 @@ const update = (req, res, next) => {
 	ep.fail(next);
 
 	let id = req.params.id
-	if (id.match(/^[0-9a-fA-F]{24}$/)) {
+	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		CompanyProxy.updateById(req.params.id, req.body, ep.done(function (data) {
 			if (!data) {
 				res.status(404);

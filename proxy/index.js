@@ -5,4 +5,6 @@ exports.Product = require('./product');
 exports.Customer = require('./customer');
 exports.Record = require('./record');
 exports.Inventory = require('./inventory');
+exports.CusEvent = require('./customer_event');
+exports.CusRecord = require('./customer_record');
 
