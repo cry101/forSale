@@ -103,8 +103,23 @@ const oneById = (req, res, next) => {
 
 	InventoryProxy.getInventoryById(req.params.id, ep.done(function (data) {
 		if (!data) {
-			res.status(404);
-			return res.send({success: false, msg: '记录不存在'});
+			return res.send({success: false, msg: '库存不存在'});
+		}
+		res.send({success: true, data: data});
+	}));
+}
+
+// 根据产品id查询库存
+const oneByPro = (req, res, next) => {
+	let ep = new eventproxy();
+	ep.fail(next);
+
+	InventoryProxy.getInventoryByPro({
+		pro_id: req.params.id,
+		token: req.headers.token
+	}, ep.done(function (data) {
+		if (!data) {
+			return res.send({success: false, msg: '库存不存在'});
 		}
 		res.send({success: true, data: data});
 	}));
@@ -115,3 +130,4 @@ exports.del = del
 exports.update = update
 exports.list = list
 exports.oneById = oneById
+exports.oneByPro = oneByPro

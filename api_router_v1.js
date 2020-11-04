@@ -75,6 +75,7 @@ router.delete('/record/:id',auth.userRequired, recordApi.del);
 // 库存
 // router.post('/inventory',auth.userRequired, inventoryApi.create);
 router.get('/inventory/:id',auth.userRequired, inventoryApi.oneById);
+router.get('/inventoryByPro/:id',auth.userRequired, inventoryApi.oneByPro);
 router.get('/inventorys',auth.userRequired, inventoryApi.list);
 // router.put('/inventory/:id',auth.userRequired, inventoryApi.update);
 router.delete('/inventory/:id',auth.userRequired, inventoryApi.del);

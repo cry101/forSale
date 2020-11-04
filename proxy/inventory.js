@@ -24,11 +24,11 @@ exports.getInventoryById = function (id, callback) {
  * @param {String} id 产品ID
  * @param {Function} callback 回调函数
  */
-exports.getInventoryByPro = function (id, callback) {
-	if (!id) {
+exports.getInventoryByPro = function ({ pro_id, token }, callback) {
+	if (!pro_id) {
 		return callback();
 	}
-	Inventory.findOne({pro_id: id}, callback);
+	Inventory.findOne({pro_id, token}, callback);
 };
 
 

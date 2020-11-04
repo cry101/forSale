@@ -17,14 +17,17 @@ const create = (req, res, next) => {
 	// 获取产品信息
 	ProductsProxy.getProductById(pro_id, ep.doneLater('pro'));
 
-	// 处理库存逻辑
-	InventoryProxy.getInventoryByPro(pro_id, ep.doneLater('inve'))
+	// 处理库存逻辑 根据对应用户的对应产品
+	InventoryProxy.getInventoryByPro({
+		pro_id,
+		token: req.headers.token
+	}, ep.doneLater('inve'))
 
 	ep.all('pro', 'inve', function (pro, inve) {
 		if (!pro) {
 			return res.send({success: false, msg: '产品不存在'});
 		}
-
+		console.log('库存详情：', inve)
 		if (!(body.customer_id && body.is_net)) { // 不是顾客下单 需要处理库存
 			console.log('不是顾客下单 需要处理库存')
 			if (!inve) { // 没有库存的情况 直接加进库存
@@ -39,7 +42,7 @@ const create = (req, res, next) => {
 						tag_name: pro.tag_name,
 						tag_id: pro.tag_id,
 						pic: pro.pic
-					}, ep.done('inventory'));
+					}, ep.doneLater('inventory'));
 				} else {
 					return res.send({success: false, msg: '没有该产品的库存'});
 				}
@@ -83,7 +86,7 @@ const create = (req, res, next) => {
 				}
 				InventoryProxy.updateById(inve._id, {
 					price_list: postData
-				}, ep.done('inventory'));
+				}, ep.doneLater('inventory'));
 			}
 		}
 
@@ -98,6 +101,10 @@ const create = (req, res, next) => {
 		}, ep.done('record'));
 		
 	});
+
+	ep.once('inventory', function(inventory) {
+		console.log('库存添加进数据库：', inventory)
+	})
 
 	ep.all('record', function (record) {
 		// console.log(record)
@@ -128,7 +135,10 @@ const del = (req, res, next) => {
 				newArr.map(i => {
 					priceData[i.price] = i.amount
 				})
-				InventoryProxy.getInventoryByPro(record.pro_id, ep.doneLater('inve'))
+				InventoryProxy.getInventoryByPro({
+					pro_id: record.pro_id,
+					token: req.headers.token
+				}, ep.doneLater('inve'))
 			} else {
 				ep.emit('del')
 			}
