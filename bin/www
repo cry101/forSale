@@ -7,7 +7,9 @@
 var app = require('../app');
 var debug = require('debug')('wechat:server');
 var http = require('http');
-
+const https = require("https");
+const fs = require("fs");
+const path = require('path');
 /**
  * Get port from environment and store in Express.
  */
@@ -20,7 +22,12 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-
+// Configuare https
+const httpsOption = {
+    key : fs.readFileSync(path.resolve(__dirname, "./https/4723541.key")),
+    cert: fs.readFileSync(path.resolve(__dirname, "./https/4723541.pem"))
+}
+https.createServer(httpsOption, app).listen(443);
 /**
  * Listen on provided port, on all network interfaces.
  */

@@ -20,7 +20,22 @@ function run_cmd() {
     });
 }
 
-run_cmd()
+
+// 第一次启动
+const start = spawn('cmd.exe', ['/c', 'start.bat']);
+
+start.stdout.on('data', (data) => {
+    console.log(data.toString());
+});
+
+start.stderr.on('data', (data) => {
+    console.error(data.toString());
+});
+
+start.on('exit', (code) => {
+    console.log(`Child exited with code ${code}`);
+});
+
 http.createServer(function (req, res) {
     handler(req, res, function (err) {
         res.statusCode = 404
