@@ -23,7 +23,6 @@ const fetch = (req, res, next) => {
 	// 先获取分类名
 	TagsProxy.getTagById(query.tag_id, ep.done(function (tag) {
 		if (!tag) {
-			res.status(404);
 			return res.send({success: false, msg: '分类不存在'});
 		}
 		
@@ -78,7 +77,6 @@ const create = (req, res, next) => {
 
 	TagsProxy.getTagById(query.tag_id, ep.done(function (tag) {
 		if (!tag) {
-			res.status(404);
 			return res.send({success: false, msg: '分类不存在'});
 		}
 		ProductsProxy.newAndSave({

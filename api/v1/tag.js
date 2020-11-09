@@ -19,7 +19,6 @@ const del = (req, res, next) => {
 	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		TagsProxy.delById(id, ep.done(function (data) {
 			if (!data) {
-				res.status(404);
 				return res.send({success: false, msg: '分类不存在'});
 			}
 			res.send({success: true, data: data});
@@ -38,7 +37,6 @@ const update = (req, res, next) => {
 	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		TagsProxy.updateById(id, req.body, ep.done(function (data) {
 			if (!data) {
-				res.status(404);
 				return res.send({success: false, msg: '分类不存在'});
 			}
 			res.send({success: true, data: data});

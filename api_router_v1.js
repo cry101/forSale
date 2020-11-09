@@ -30,6 +30,7 @@ router.post('/upload', commonApi.upload.single('file'),(req,res)=>{
 router.get('/login', commonApi.login);
 
 // 用户
+router.post('/userLogin', userApi.login);
 router.post('/user', userApi.create);
 router.get('/user/:id', userApi.oneById);
 router.get('/users', auth.adminRequired, userApi.list);

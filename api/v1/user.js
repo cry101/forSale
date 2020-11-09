@@ -165,7 +165,6 @@ const oneById = (req, res, next) => {
 	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		UserProxy.getUserById(id, ep.done(function (data) {
 			if (!data) {
-				res.status(404);
 				return res.send({success: false, msg: '用户不存在'});
 			}
 			res.send({success: true, data: data});
@@ -181,7 +180,22 @@ const info = (req, res, next) => {
 
 	UserProxy.getUserByToken(req.headers.token, ep.done(function(data){
 		if (!data) {
-			return res.send({success: true, data: null, msg: '请注册！'});
+			return res.send({success: false, data: null, msg: '请注册！'});
+		}
+		res.send({ success: true, data: data});
+	}))
+}
+
+const login = (req, res, next) => {
+	let ep = new eventproxy()
+	ep.fail(next);
+
+	UserProxy.getUserByPwd({
+		username: req.body.username,
+		password: req.body.password
+	}, ep.done(function(data){
+		if (!data) {
+			return res.send({success: false, data: null, msg: '用户名或密码不正确'});
 		}
 		res.send({ success: true, data: data});
 	}))
@@ -194,3 +208,4 @@ exports.updateByToken = updateByToken
 exports.list = list
 exports.oneById = oneById
 exports.info = info
+exports.login = login

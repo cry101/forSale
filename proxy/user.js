@@ -34,6 +34,22 @@ exports.getUserByToken = function (token, callback) {
 };
 
 /**
+ * 根据用户名密码查找用户
+ * Callback:
+ * - err, 数据库异常
+ * - user, 用户
+ * @param {String} username
+ * @param {String} password
+ * @param {Function} callback 回调函数
+ */
+exports.getUserByPwd = function ({ username, password }, callback) {
+	if (!username || !password) {
+		return callback();
+	}
+	User.findOne({ username , password }, callback);
+};
+
+/**
  * 根据用户ID，查找用户
  * Callback:
  * - err, 数据库异常

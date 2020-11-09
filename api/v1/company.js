@@ -25,7 +25,6 @@ const del = (req, res, next) => {
 	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		CompanyProxy.delById(id, ep.done(function (data) {
 			if (!data) {
-				res.status(404);
 				return res.send({success: false, msg: '公司不存在'});
 			}
 			res.send({success: true, data: data});
@@ -43,7 +42,6 @@ const update = (req, res, next) => {
 	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		CompanyProxy.updateById(req.params.id, req.body, ep.done(function (data) {
 			if (!data) {
-				res.status(404);
 				return res.send({success: false, msg: '公司不存在'});
 			}
 			res.send({success: true, data: data});

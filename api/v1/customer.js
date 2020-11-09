@@ -21,7 +21,6 @@ const del = (req, res, next) => {
 
 	CustomerProxy.delById(req.params.id, ep.done(function (data) {
 		if (!data) {
-			res.status(404);
 			return res.send({success: false, msg: '客户不存在'});
 		}
 		res.send({success: true, data: data});
@@ -34,7 +33,6 @@ const update = (req, res, next) => {
 
 	CustomerProxy.updateById(req.params.id, req.body, ep.done(function (data) {
 		if (!data) {
-			res.status(404);
 			return res.send({success: false, msg: '客户不存在'});
 		}
 		res.send({success: true, data: data});
@@ -90,7 +88,6 @@ const oneById = (req, res, next) => {
 
 	CustomerProxy.getCustomerById(req.params.id, ep.done(function (data) {
 		if (!data) {
-			res.status(404);
 			return res.send({success: false, msg: '客户不存在'});
 		}
 		res.send({success: true, data: data});

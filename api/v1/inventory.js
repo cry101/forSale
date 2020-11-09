@@ -13,7 +13,6 @@ const create = (req, res, next) => {
 
 	ProductsProxy.getProductById(body.pro_id, ep.done(function(data){
 		if (!data) {
-			res.status(404);
 			return res.send({success: false, msg: '产品不存在'});
 		}
 		InventoryProxy.newAndSave({

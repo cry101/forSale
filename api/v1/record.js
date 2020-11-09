@@ -251,7 +251,6 @@ const oneById = (req, res, next) => {
 	if (/^[0-9a-fA-F]{24}$/.test(id)) {
 		RecordProxy.getRecordById(id, ep.done(function (data) {
 			if (!data) {
-				res.status(404);
 				return res.send({success: false, msg: '记录不存在'});
 			}
 			res.send({success: true, data: data});
