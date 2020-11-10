@@ -61,6 +61,7 @@ const create = (req, res, next) => {
 				})
 				
 				let keys = Object.keys(priceData)
+				let flag = 0
 				keys.map(item => {
 					if (body.type) { // 进
 						if (price_list[item]) { // 存在
@@ -73,13 +74,23 @@ const create = (req, res, next) => {
 							if (price_list[item] >= priceData[item]) { // 且足够
 								price_list[item] = price_list[item] - priceData[item]
 							} else {
-								return res.send({success: false, msg: '库存不足，剩余：' + price_list[item]});
+								flag = item
+								
 							}
 						} else {
-							return res.send({success: false, msg: '没有该产品的库存'});
+							flag = 1
 						}
 					}
 				})
+				if (flag) {
+					if (flag === 1) {
+						return res.send({success: false, msg: '没有该产品的库存'});
+					} else {
+						return res.send({success: false, msg: flag + '库存不足' + price_list[flag]});
+					}
+				}
+
+
 				let postData = []
 				for(let p in price_list) {
 					postData.push({ price: p, amount: price_list[p] })
@@ -220,11 +231,11 @@ const list = (req, res, next) => {
 		}
 	}
 	//模糊搜索
-	if(query.name) {
-		const reg = new RegExp(query.name, 'i')
+	if(query.pro_name) {
+		const reg = new RegExp(query.pro_name, 'i')
 		query = {
 			...query,
-			name:  {$regex : reg}
+			pro_name:  {$regex : reg}
 		}
 	}
 
