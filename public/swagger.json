@@ -13,6 +13,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
+  "host": "http://47.115.136.68/doc",
   "basePath": "/api/v1",
   "tags": [
     {
