@@ -1039,6 +1039,60 @@
         }
       }
     },
+    "/product/check": {
+      "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "检查官网产品数据，不添加数据库",
+        "description": "code 纽崔莱100 小n150 xs1000 雅姿200 家居科技300 个人护理400 家居护理700 辅销产品500 海外购2000",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "description": "官方产品分类code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page_no",
+            "in": "query",
+            "type": "number"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "最大100",
+            "type": "number"
+          },
+          {
+            "name": "company_id",
+            "in": "query",
+            "description": "公司id",
+            "type": "string"
+          },
+          {
+            "name": "tag_id",
+            "in": "query",
+            "description": "分类id",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
     "/customer": {
       "post": {
         "tags": [
