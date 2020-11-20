@@ -16,10 +16,6 @@ const fetch = (req, res, next) => {
 		return
 	}
 
-	// let reg=/^((https|http|ftp|rtsp|mms)?:\/\/)+[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/
-	// if (!reg.test(query.url)){
-	// 	res.send({ success: false, msg: 'url格式不正确'})
-	// }
 	// 先获取分类名
 	TagsProxy.getTagById(query.tag_id, ep.done(function (tag) {
 		if (!tag) {
@@ -71,6 +67,64 @@ const fetch = (req, res, next) => {
 	}));
 }
 
+// 先获取检查数据
+const check = (req, res, next) => {
+	let ep = new eventproxy();
+	ep.fail(next);
+
+	let query = req.query;
+	// code 官方分类
+	if(!(query.code && query.company_id && query.tag_id)) {
+		res.send({ success: false, msg: '参数不足'})
+		return
+	}
+
+	// 先获取分类名
+	TagsProxy.getTagById(query.tag_id, ep.done(function (tag) {
+		if (!tag) {
+			return res.send({success: false, msg: '分类不存在'});
+		}
+		
+		var post_data = {  
+			"categoryAggregateType": "CHILDREN",
+			"categoryCode": query.code,
+			"channel": "INT",
+			"channelCode": "INT",
+			"pageNo": query.page_no || 1,
+			"pageSize": query.page_size || 100
+		};//这是需要提交的数据  
+		axios({
+			data: post_data,
+			method: 'post',
+			url: config.amwayUrl
+		}).then(function(result) {
+			// console.log(result)
+			let data = result.data.data.products.content
+			let arr = []
+			data.map(item => {
+				let price = item.priceList.map(i => i.price)
+				price = [...new Set(price)] // 多个价格去重
+				let obj = {
+					name: item.productName,
+					product_code: item.productCode, // 产品代码 对应官网的 下次添加不重复标识
+					tag_id: query.tag_id,
+					tag_name: tag.name,
+					company_id: query.company_id,
+					price: price,
+					pic: item.picture,
+					bar_code: '' // 
+				}
+				arr.push(obj)
+			})
+			
+			res.send({success: true, msg: '请求成功', data: data, saveData: arr });
+			
+		}).catch(e => {
+			res.send({success: false, msg: '获取失败', data: e});
+		})
+	}));
+}
+
 const create = (req, res, next) => {
 	let ep = new eventproxy();
 	ep.fail(next);
@@ -109,22 +163,21 @@ const update = (req, res, next) => {
 	let ep = new eventproxy();
 	ep.fail(next);
 
-	TagsProxy.getTagById(query.tag_id, ep.done('tag'))
+	// TagsProxy.getTagById(query.tag_id, ep.done('tag'))
 
-	ep.all('tag', function(tag) {
-		if (!tag) {
-			return res.send({success: false, msg: '分类不存在'});
-		}
+	// ep.all('tag', function(tag) {
+	// 	if (!tag) {
+	// 		return res.send({success: false, msg: '分类不存在'});
+	// 	}
 		ProductsProxy.updateById(req.params.id, {
-			...req.body,
-			tag_name: tag
+			...req.body
 		}, ep.done(function (data) {
 			if (!data) {
 				return res.send({success: false, msg: '产品不存在'});
 			}
 			res.send({success: true, data: data});
 		}));
-	})
+	// })
 	
 }
 
@@ -211,6 +264,7 @@ const proList = (req, res, next) => {
 }
 
 exports.fetch = fetch
+exports.check = check
 exports.create = create
 exports.del = del
 exports.update = update

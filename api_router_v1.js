@@ -60,6 +60,7 @@ router.get('/products', productApi.list);
 router.put('/product/:id', auth.adminRequired, productApi.update);
 router.delete('/product/:id', auth.adminRequired, productApi.del);
 router.post('/product/fetch', auth.adminRequired, productApi.fetch);
+router.post('/product/check', auth.adminRequired, productApi.check);
 router.post('/productByIds', productApi.proList)
 
 
