@@ -45,7 +45,9 @@ const update = (req, res, next) => {
 	let ep = new eventproxy();
 	ep.fail(next);
 
-	InventoryProxy.updateById(req.params.id, req.body, ep.done(function (data) {
+	InventoryProxy.updateById(req.params.id, {
+		remark: req.body.remark
+	}, ep.done(function (data) {
 		if (!data) {
 			return res.send({success: false, msg: '库存不存在'});
 		}

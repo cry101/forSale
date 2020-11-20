@@ -1769,6 +1769,48 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "inventory"
+        ],
+        "summary": "根据库存id修改备注",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "example": {
+              "remark": "123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Inventory"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "inventory"

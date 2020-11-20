@@ -13,7 +13,7 @@ var InventorySchema = new Schema({
 	pic: {type: String}, // 产品图
 
 	token: {type: String}, // 用户token
-	// remark: {type: String}, // 备注
+	remark: {type: String}, // 备注
 });
 
 mongoose.model('Inventory', InventorySchema);
