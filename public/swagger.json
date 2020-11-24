@@ -13,7 +13,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "47.115.136.68/api",
+  "host": "chenruoyao.cn/api",
   "basePath": "/v1",
   "tags": [
     {
@@ -58,7 +58,7 @@
     }
   ],
   "schemes": [
-    "http", "https"
+    "https"
   ],
   "paths": {
     "/upload": {
