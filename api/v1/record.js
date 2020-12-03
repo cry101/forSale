@@ -259,6 +259,7 @@ const sums = (req, res, next) => {
 	ep.fail(next);
 
 	let query = req.query;
+	let options = { sort: '-top -created_time' };
 
 	// 过滤空查询
 	for(let i in query) {
@@ -279,7 +280,7 @@ const sums = (req, res, next) => {
 
 	query.token = req.headers.token;
 
-	RecordProxy.getListByQuery(query, {}, ep.done(function (data) {
+	RecordProxy.getListByQuery(query, options, ep.done(function (data) {
 		let total = 0
 		data.map(item => {
 			item.price_list.map(i => {
