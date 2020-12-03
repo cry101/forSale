@@ -78,6 +78,7 @@ exports.newAndSave = function ( obj, callback) {
 	record.customer_id = obj.customer_id || ''
 	record.customer_name = obj.customer_name || ''
 	record.is_net = obj.is_net
+	record.is_gift = obj.is_gift
 
 	record.save(callback);
 };

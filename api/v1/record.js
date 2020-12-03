@@ -267,6 +267,8 @@ const sums = (req, res, next) => {
 			delete query[i]
 		}
 	}
+	// console.log(query)
+	// 日期范围查询
 	if (query.startDate && query.endDate) {
 		var startDate = moment(query.startDate + ' 00:00:00').format()
 		var endDate = moment(query.endDate + ' 23:59:59').format()
@@ -277,6 +279,24 @@ const sums = (req, res, next) => {
 	}
 	delete query.startDate
 	delete query.endDate
+
+	// 出库条件
+	if (query.type === 'false') {
+		if (query.is_gift === 'false') { // 查询非赠品
+			query.is_gift = { '$in': [false, null] } // 兼容旧数据
+		}
+
+		if (query.is_self) {
+			if (query.is_self === 'true') { // 自用
+				query.customer_id = ''
+			} else if (query.is_self === 'false') { // 销售
+				query.customer_id = { '$ne': ''} // 顾客id不为空
+			}
+			query.is_gift = { '$in': [false, null] }
+			delete query.is_self
+		}
+		
+	}
 
 	query.token = req.headers.token;
 
