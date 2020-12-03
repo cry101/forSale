@@ -19,7 +19,8 @@ var RecordSchema = new Schema({
 
 	customer_id: {type: String}, // 客户id 为空代表自己
 	customer_name: {type: String}, // 顾客姓名
-	is_net: {type: Boolean} // 顾客自己网购(不处理库存) true是 false否
+	is_net: {type: Boolean}, // 顾客自己网购(不处理库存) true是 false否
+	is_gift: {type: Boolean} // 是否赠品 true是 false否
 });
 
 mongoose.model('Record', RecordSchema);

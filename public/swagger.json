@@ -13,8 +13,11 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "chenruoyao.cn/api",
+  "host": "localhost:3000",
   "basePath": "/v1",
+  "schemes": [
+    "http"
+  ],
   "tags": [
     {
       "name": "common",
@@ -56,9 +59,6 @@
       "name": "inventory",
       "description": "库存信息接口"
     }
-  ],
-  "schemes": [
-    "https"
   ],
   "paths": {
     "/upload": {
@@ -1651,6 +1651,63 @@
         }
       }
     },
+    "/records/sums": {
+      "get": {
+        "tags": [
+          "record"
+        ],
+        "summary": "获取统计金额",
+        "description": "",
+        "produces": [
+          "application/x-www-form-urlencoded",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "开始日期",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "结束日期",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "customer_id",
+            "in": "query",
+            "description": "查询对应顾客记录",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "类型 true进 false销",
+            "required": true,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Record"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
     "/record/{id}": {
       "get": {
         "tags": [
@@ -1741,6 +1798,49 @@
             "description": "successful operation",
             "schema": {
               "$ref": "#/definitions/Inventory"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/inventorys/sums": {
+      "get": {
+        "tags": [
+          "inventory"
+        ],
+        "summary": "获取库存统计金额",
+        "description": "",
+        "produces": [
+          "application/x-www-form-urlencoded",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "开始日期",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "结束日期",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Record"
             }
           },
           "400": {
@@ -2139,6 +2239,11 @@
           "type": "boolean",
           "example": false,
           "description": "顾客自己网购 true是 false否"
+        },
+        "is_gift": {
+          "type": "boolean",
+          "example": false,
+          "description": "是否赠品（出库用到） true是 false否"
         }
       },
       "xml": {

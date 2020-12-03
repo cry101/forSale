@@ -89,6 +89,7 @@ router.delete('/cusEvent/:id', auth.userRequired, cusEventApi.del);
 router.post('/record',auth.userRequired, recordApi.create);
 router.get('/record/:id',auth.userRequired, recordApi.oneById);
 router.get('/records',auth.userRequired, recordApi.list);
+router.get('/records/sums',auth.userRequired, recordApi.sums);
 // router.put('/record/:id',auth.userRequired, recordApi.update);
 router.delete('/record/:id',auth.userRequired, recordApi.del);
 
@@ -97,6 +98,7 @@ router.delete('/record/:id',auth.userRequired, recordApi.del);
 router.get('/inventory/:id',auth.userRequired, inventoryApi.oneById);
 router.get('/inventoryByPro/:id',auth.userRequired, inventoryApi.oneByPro);
 router.get('/inventorys',auth.userRequired, inventoryApi.list);
+router.get('/inventorys/sums',auth.userRequired, inventoryApi.sums);
 router.put('/inventory/:id',auth.userRequired, inventoryApi.update);
 router.delete('/inventory/:id',auth.userRequired, inventoryApi.del);
 
