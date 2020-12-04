@@ -136,7 +136,7 @@ const sums = (req, res, next) => {
 		res.send({
 			success: true, 
 			data: {
-				sums: total,
+				sums: total.toFixed(2),
 				list: data
 			}
 		});
