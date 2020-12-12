@@ -92,8 +92,9 @@ const check = (req, res, next) => {
 		method: 'post',
 		url: config.amwayUrl
 	}).then(function(result) {
-		// console.log(result)
+		// console.log(result.data.data)
 		let data = result.data.data.products.content
+		// console.log(data)
 		let arr = []
 		data.map(item => {
 			let price = item.priceList.map(i => i.price)
@@ -102,7 +103,7 @@ const check = (req, res, next) => {
 				name: item.productName,
 				product_code: item.productCode, // 产品代码 对应官网的 下次添加不重复标识
 				tag_id: '',
-				tag_name: tag.name,
+				tag_name: '',
 				company_id: '',
 				price: price,
 				pic: item.picture,
