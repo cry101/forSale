@@ -8,7 +8,7 @@
     "auth": "C: && cd C:/Program Files/MongoDB/Server/4.4/bin && mongod --dbpath C:/data/db --auth"
   },
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.3",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
