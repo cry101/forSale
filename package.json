@@ -23,7 +23,7 @@
     "morgan": "~1.9.0",
     "multer": "^1.4.2",
     "node-uuid": "^1.4.8",
-    "pug": "2.0.0-beta11",
+    "pug": "3.0.1",
     "request": "^2.88.2",
     "superagent": "^5.0.5",
     "utility": "^1.16.1"
