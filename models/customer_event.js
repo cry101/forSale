@@ -1,7 +1,7 @@
 var mongoose  = require('mongoose');
 var Schema    = mongoose.Schema;
 
-// 顾客跟进记录
+// 顾客重要事件
 var CusEventSchema = new Schema({
 	name: { type: String}, // 顾客姓名
 	date: { type: String}, // 日期

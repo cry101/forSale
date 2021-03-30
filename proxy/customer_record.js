@@ -69,7 +69,8 @@ exports.newAndSave = function ( obj, callback) {
 	record.customer_id = obj.customer_id;
 	record.content = obj.content || '';
 	record.deal = obj.deal || false;
-	record.reason = obj.reason || '';
+	record.remark = obj.remark || '';
+	record.money = obj.money || 0
 
 	record.save(callback);
 };

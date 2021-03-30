@@ -77,6 +77,7 @@ router.get('/cusRecord/:id', auth.userRequired, cusRecordApi.oneById);
 router.get('/cusRecords', auth.userRequired, cusRecordApi.list);
 router.put('/cusRecord/:id', auth.userRequired, cusRecordApi.update);
 router.delete('/cusRecord/:id', auth.userRequired, cusRecordApi.del);
+router.get('/cusRecordSums', auth.userRequired, cusRecordApi.sums);
 
 // 客户重要事件
 router.post('/cusEvent', auth.userRequired, cusEventApi.create);

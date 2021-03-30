@@ -69,7 +69,7 @@ exports.newAndSave = function ( obj, callback) {
 	customer.mobile = obj.mobile || ''
 	customer.sex = obj.sex || ''
 	customer.birthday = obj.birthday || ''
-	customer.star = obj.star || 1 //是否提醒
+	customer.star = obj.star || 1 //星级
 	customer.address = obj.address || ''
 	customer.products = obj.products || [] //常用产品
 	customer.tags = obj.tags || [] //常用标签
@@ -77,6 +77,7 @@ exports.newAndSave = function ( obj, callback) {
 	customer.remark = obj.remark || ''
 	customer.record = obj.record || '' //服务跟进记录
 	customer.prepay = obj.prepay || '' //预付款
+	customer.userType = obj.userType || 0 // 默认顾客
 	customer.token = obj.token || '' //所属用户
 
 	customer.save(callback);

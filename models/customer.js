@@ -16,6 +16,7 @@ var CustomerSchema = new Schema({
 	remark: {type: String},
 	record: {type: String}, //服务跟进记录
 	prepay: {type: Number}, //预付款
+	userType: {type: Number}, // 类型 0顾客 1伙伴
 
 	token: {type: String},
 });
