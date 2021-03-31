@@ -49,7 +49,8 @@ exports.delById = function (id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getListByQuery = function (query, opt, callback) {
-	Product.find(query, '', opt, callback);
+	Product.find(query, '', opt, callback)
+	// .sort({ created_time: -1, _id: 1 });
 };
 
 /**

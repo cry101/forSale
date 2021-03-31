@@ -12,7 +12,7 @@ const create = (req, res, next) => {
 	let body = req.body;
 	body.token = req.headers.token;
 	let pro_id = body.pro_id
-	// todo 进销存逻辑
+	// 进销存逻辑
 	if (!/^[0-9a-fA-F]{24}$/.test(pro_id)) return res.send({success: false, msg: '产品id有误'});
 	// 获取产品信息
 	ProductsProxy.getProductById(pro_id, ep.doneLater('pro'));
@@ -22,7 +22,7 @@ const create = (req, res, next) => {
 		pro_id,
 		token: req.headers.token
 	}, ep.doneLater('inve'))
-
+	var postData = [] // 处理完后的库存
 	ep.all('pro', 'inve', function (pro, inve) {
 		if (!pro) {
 			return res.send({success: false, msg: '产品不存在'});
@@ -91,7 +91,7 @@ const create = (req, res, next) => {
 				}
 
 
-				let postData = []
+				postData = []
 				for(let p in price_list) {
 					postData.push({ price: p, amount: price_list[p] })
 				}
@@ -118,9 +118,8 @@ const create = (req, res, next) => {
 	})
 
 	ep.all('record', function (record) {
-		// console.log(record)
 		// 成功回调
-		res.send({success: true, data: record, msg: '操作成功'});
+		res.send({success: true, data: record, new_price_list: postData, msg: '操作成功'});
 	})
 }
 
