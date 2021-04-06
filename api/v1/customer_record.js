@@ -55,7 +55,7 @@ const list = (req, res, next) => {
 	let page_no = parseInt(query.page_no, 10) || 1;
 	page_no = page_no > 0 ? page_no : 1;
 	let page_size    = Number(query.page_size) || config.page_size;
-	let options = { skip: (page_no - 1) * page_size, limit: page_size, sort: '-top -sort'};
+	let options = { skip: (page_no - 1) * page_size, limit: page_size, sort: '-top -created_time'};
 
 	delete query["page_no"];
 	delete query["page_size"];
