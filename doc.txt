@@ -1,0 +1,10 @@
+部署指南
+1.nodejs 环境 mongodb环境 
+
+2.启动
+forever start ./bin/www
+数据库：C: && cd C:/Program Files/MongoDB/Server/4.4/bin && mongod --dbpath C:/data/db --auth
+
+nginx命令：
+start nginx
+nginx -s reload
