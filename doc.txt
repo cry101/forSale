@@ -8,3 +8,6 @@ forever start ./bin/www
 nginx命令：
 start nginx
 nginx -s reload
+
+3.数据库备份
+mongodump -h 127.0.0.1 -d node_wechat -o C:/data/dump
