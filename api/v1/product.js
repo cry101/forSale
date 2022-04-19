@@ -39,7 +39,7 @@ const fetch = (req, res, next) => {
 			// console.log(result)
 			let data = result.data.data.products.content
 			// 去下载所有图片
-			let urlList = data.map(j => imageUrl + j.picture)
+			let urlList = data.map(j => imageUrl + j.picture.split('?')[0])
 			download(urlList)
 			data.map(item => {
 				let price = item.priceList.map(i => i.price)
