@@ -51,7 +51,7 @@ const fetch = (req, res, next) => {
 					tag_name: tag.name,
 					company_id: query.company_id,
 					price: price,
-					pic: item.picture,
+					pic: item.picture.split('?')[0],
 					bar_code: '' // 
 				}
 				ProductsProxy.newAndSave(obj, ep.done('fetch', data => data));
